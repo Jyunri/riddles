@@ -1,23 +1,37 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Icon } from 'react-native-elements';
 import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
 import Profile from './src/components/Profile';
 import Questions from './src/components/Questions';
-
-class SettingsScreen extends React.Component {
-  render() {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Settings!</Text>
-      </View>
-    );
-  }
-}
+import Settings from './src/components/Settings';
 
 const TabNavigator = createBottomTabNavigator({
-  Questions: Questions,
-  Profile: Profile,
-  Settings: SettingsScreen,
-});
+  Questions: {
+    screen: Questions,
+    navigationOptions: {
+      tabBarIcon: ({ tintColor }) => (<Icon name='list' size={25} color={tintColor} />)
+    }
+  },
+  Profile: {
+    screen: Profile,
+    navigationOptions: {
+      tabBarIcon: ({ tintColor }) => (<Icon name='person' size={25} color={tintColor} />)
+    }
+  },
+  Settings: {
+    screen: Settings,
+    navigationOptions: {
+      tabBarIcon: ({ tintColor }) => (<Icon name='settings' size={25} color={tintColor} />)
+    }
+  },
+},
+{
+  tabBarOptions: {
+    style: {
+      backgroundColor: '#e5bff2'
+    }
+  }
+}
+);
 
 export default createAppContainer(TabNavigator);
