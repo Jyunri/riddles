@@ -54,10 +54,10 @@ export default class Question extends Component {
           <View style={styles.listItem}>
             <View style={styles.listAvatar}>
               <Icon name='face' size={25} />
-              <Text>{item.user}</Text>          
+              <Text style={styles.listText}>{item.user}</Text>          
             </View>
             <View style={styles.listQuestion}>
-              <Text>{item.question}</Text>
+              <Text style={styles.listText}>{item.question}</Text>
             </View>
           </View>
         </TouchableOpacity>
@@ -142,6 +142,11 @@ const styles = StyleSheet.create({
     marginRight: 20,
     flex: 3,
     justifyContent: 'center',
+  },
+  listText: {
+    color: 'purple',
+    fontWeight: 'bold',
+    fontSize: 15,
   },
   modalContainer: {
     flex: 1,

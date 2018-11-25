@@ -17,7 +17,7 @@ export default class Matches extends Component {
      <Card
         title={`${item.user} <3`}
         image={{uri: item.image}}>
-        <Text style={{marginBottom: 10}}>
+        <Text style={styles.listText}>
           {`Das ${item.questionsCount} perguntas dele(a), voce deu match com ${item.answersMatches} respostas!`}
         </Text>
         <TouchableOpacity
@@ -53,6 +53,12 @@ const styles = StyleSheet.create({
   listItem: {
     backgroundColor: '#e5bff2',
     marginTop: 20,
+  },
+  listText: {
+    color: 'purple',
+    fontWeight: 'bold',
+    fontSize: 15,
+    marginVertical: 10,
   },
   msgButton: {
     marginRight:40,
