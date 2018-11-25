@@ -24,7 +24,7 @@ export default class Matches extends Component {
           style={styles.msgButton}
           onPress={() => alert('em construcao')}
           underlayColor='#fff'>
-            <Text style={styles.msgText}>Enviar Mensagem</Text>
+            <Text style={styles.msgText}>Ver Perfil</Text>
         </TouchableOpacity>
       </Card>
     </View>
@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 15,
     marginVertical: 10,
+    textAlign: 'center',
   },
   msgButton: {
     marginRight:40,

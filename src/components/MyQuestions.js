@@ -14,7 +14,7 @@ import { Icon } from 'react-native-elements';
 // TODO: Retirar esse cara depois de adicionar o SWIPEABLEMODAL
 import Modal from "react-native-modal";
 
-export default class Questions extends Component {
+export default class MyQuestions extends Component {
   state = {
     data: {
       0: { id: 0, question: 'Qual a minha comida favorita?', answer: 'macarrao', user: 'jimy', answered: false },
@@ -22,14 +22,6 @@ export default class Questions extends Component {
       2: { id: 2, question: 'O que eu mais gosto de jogar?', answer: 'lol', user: 'ale', answered: false  },
       3: { id: 3, question: 'Qual a minha idade?', answer: '20', user: 'diogo', answered: true  },
       4: { id: 4, question: 'Restaurante favorito?', answer: 'outback', user: 'tomino', answered: false  },
-      5: { id: 5, question: 'Qual a minha comida favorita?', answer: 'macarrao', user: 'yoji', answered: false  },
-      6: { id: 6, question: 'Qual o meu filme favorito?', answer: 'titanic', user: 'kazu', answered: false  },
-      7: { id: 7, question: 'O que eu mais gosto de jogar?', answer: 'futebol', user: 'jonathan', answered: false  },
-      8: { id: 8, question: 'Qual a minha idade?', answer: '30', user: 'alex', answered: false  },
-      9: { id: 9, question: 'Restaurante favorito?', answer: 'quero', user: 'refri', answered: false  },
-      10: { id: 10, question: 'Restaurante favorito?', answer: 'quero', user: 'robs', answered: false  },
-      11: { id: 11, question: 'Restaurante favorito?', answer: 'quero', user: 'zocolau', answered: false  },
-      12: { id: 12, question: 'Restaurante favorito?', answer: 'quero', user: 'chris', answered: false  },
     },
     modalVisible: false,
     currentQuestion: {},
@@ -111,7 +103,6 @@ export default class Questions extends Component {
           </View>
         </Modal>
         <FlatList
-          style={{ marginVertical: 20 }}
           contentContainerStyle={styles.list}
           data={Object.values(this.state.data)}
           renderItem={this.renderItem}

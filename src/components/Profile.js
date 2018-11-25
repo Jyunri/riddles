@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, ScrollView, StyleSheet, Text } from 'react-native';
 import { Tile } from 'react-native-elements';
 
-import Questions from './Questions';
+import MyQuestions from './MyQuestions';
 
 
 class Profile extends Component {
@@ -21,7 +21,7 @@ class Profile extends Component {
         <View style={styles.titleContainer}>
           <Text style={styles.title}>Minhas Perguntas</Text>
         </View>
-        <Questions />
+        <MyQuestions />
       </ScrollView>
     );
   }
