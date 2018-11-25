@@ -111,7 +111,7 @@ export default class Question extends Component {
           </View>
         </Modal>
         <FlatList
-          style={{ marginVertical: 50 }}
+          style={{ marginVertical: 20 }}
           contentContainerStyle={styles.list}
           data={Object.values(this.state.data)}
           renderItem={this.renderItem}
