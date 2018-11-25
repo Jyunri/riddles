@@ -18,15 +18,18 @@ export default class Question extends Component {
   state = {
     data: {
       0: { id: 0, question: 'Qual a minha comida favorita?', answer: 'macarrao', user: 'jimy', answered: false },
-      1: { id: 1, question: 'Qual o meu filme favorito?', answer: 'titanic', user: 'raphael', answered: false  },
-      2: { id: 2, question: 'O que eu mais gosto de jogar?', answer: 'futebol', user: 'ale', answered: false  },
+      1: { id: 1, question: 'Qual o meu filme favorito?', answer: 'titanic', user: 'dri', answered: false  },
+      2: { id: 2, question: 'O que eu mais gosto de jogar?', answer: 'lol', user: 'ale', answered: false  },
       3: { id: 3, question: 'Qual a minha idade?', answer: '20', user: 'diogo', answered: true  },
       4: { id: 4, question: 'Restaurante favorito?', answer: 'outback', user: 'tomino', answered: false  },
       5: { id: 5, question: 'Qual a minha comida favorita?', answer: 'macarrao', user: 'yoji', answered: false  },
       6: { id: 6, question: 'Qual o meu filme favorito?', answer: 'titanic', user: 'kazu', answered: false  },
-      7: { id: 7, question: 'O que eu mais gosto de jogar?', answer: 'futebol', user: 'jimy', answered: false  },
-      8: { id: 8, question: 'Qual a minha idade?', answer: '30', user: 'jimy', answered: false  },
-      9: { id: 9, question: 'Restaurante favorito?', answer: 'quero', user: 'jimy', answered: false  },
+      7: { id: 7, question: 'O que eu mais gosto de jogar?', answer: 'futebol', user: 'jonathan', answered: false  },
+      8: { id: 8, question: 'Qual a minha idade?', answer: '30', user: 'alex', answered: false  },
+      9: { id: 9, question: 'Restaurante favorito?', answer: 'quero', user: 'refri', answered: false  },
+      10: { id: 10, question: 'Restaurante favorito?', answer: 'quero', user: 'robs', answered: false  },
+      11: { id: 11, question: 'Restaurante favorito?', answer: 'quero', user: 'zocolau', answered: false  },
+      12: { id: 12, question: 'Restaurante favorito?', answer: 'quero', user: 'chris', answered: false  },
     },
     modalVisible: false,
     currentQuestion: {},
@@ -50,7 +53,7 @@ export default class Question extends Component {
         <TouchableOpacity onPress={() => { this.openModal(item); }}>
           <View style={styles.listItem}>
             <View style={styles.listAvatar}>
-              <Icon name='person' size={25} />
+              <Icon name='face' size={25} />
               <Text>{item.user}</Text>          
             </View>
             <View style={styles.listQuestion}>

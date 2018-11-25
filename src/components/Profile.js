@@ -12,7 +12,7 @@ export default class Profile extends Component {
       <View style={styles.mainContainer}>
         <View style={styles.profileContainer}>
           <Image
-            source={{ uri: 'https://goo.gl/EFjcwx' }}
+            source={{ uri: 'https://github.com/raphaelsantosj.png' }}
             style={{ width: 200, height: 200 }}
           />
           <Text style={styles.imageLabel}>Raphael</Text>

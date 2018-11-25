@@ -4,12 +4,19 @@ import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
 import Profile from './src/components/Profile';
 import Questions from './src/components/Questions';
 import Settings from './src/components/Settings';
+import Matches from './src/components/Matches';
 
 const TabNavigator = createBottomTabNavigator({
   Questions: {
     screen: Questions,
     navigationOptions: {
       tabBarIcon: ({ tintColor }) => (<Icon name='list' size={25} color={tintColor} />)
+    }
+  },
+  Matches: {
+    screen: Matches,
+    navigationOptions: {
+      tabBarIcon: ({ tintColor }) => (<Icon name='favorite' size={25} color={tintColor} />)
     }
   },
   Profile: {
