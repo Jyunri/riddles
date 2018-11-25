@@ -1,39 +1,116 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, StyleSheet, Alert, TouchableOpacity } from 'react-native';
+import { 
+  View,
+  Button,
+  Text,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+  TextInput,
+  Alert,
+} from 'react-native';
 import { Icon } from 'react-native-elements';
+
+// TODO: Retirar esse cara depois de adicionar o SWIPEABLEMODAL
+import Modal from "react-native-modal";
 
 export default class Question extends Component {
   state = {
-    data: [
-      { id: 0, question: 'Qual a minha comida favorita?', answer: 'macarrao' },
-      { id: 1, question: 'Qual o meu filme favorito?', answer: 'titanic' },
-      { id: 2, question: 'O que eu mais gosto de jogar?', answer: 'futebol' },
-      { id: 3, question: 'Qual a minha idade?', answer: 'Nao respondida' },
-      { id: 4, question: 'Restaurante favorito?', answer: 'Nao respondida' },
-      { id: 5, question: 'Qual a minha comida favorita?', answer: 'macarrao' },
-      { id: 6, question: 'Qual o meu filme favorito?', answer: 'titanic' },
-      { id: 7, question: 'O que eu mais gosto de jogar?', answer: 'futebol' },
-      { id: 8, question: 'Qual a minha idade?', answer: 'Nao respondida' },
-      { id: 9, question: 'Restaurante favorito?', answer: 'Nao respondida' },
-    ],
+    data: {
+      0: { id: 0, question: 'Qual a minha comida favorita?', answer: 'macarrao', user: 'jimy', answered: false },
+      1: { id: 1, question: 'Qual o meu filme favorito?', answer: 'titanic', user: 'raphael', answered: false  },
+      2: { id: 2, question: 'O que eu mais gosto de jogar?', answer: 'futebol', user: 'ale', answered: false  },
+      3: { id: 3, question: 'Qual a minha idade?', answer: '20', user: 'diogo', answered: true  },
+      4: { id: 4, question: 'Restaurante favorito?', answer: 'outback', user: 'tomino', answered: false  },
+      5: { id: 5, question: 'Qual a minha comida favorita?', answer: 'macarrao', user: 'yoji', answered: false  },
+      6: { id: 6, question: 'Qual o meu filme favorito?', answer: 'titanic', user: 'kazu', answered: false  },
+      7: { id: 7, question: 'O que eu mais gosto de jogar?', answer: 'futebol', user: 'jimy', answered: false  },
+      8: { id: 8, question: 'Qual a minha idade?', answer: '30', user: 'jimy', answered: false  },
+      9: { id: 9, question: 'Restaurante favorito?', answer: 'quero', user: 'jimy', answered: false  },
+    },
+    modalVisible: false,
+    currentQuestion: {},
   };
 
-  renderItem = ({ item }) => (
-    <TouchableOpacity onPress={() => { Alert.alert('Responder aqui'); }}>
-      <View style={styles.listItem}>
-          <View style={styles.listAvatar}><Icon name='person' size={25} /></View>
-          <Text>{item.question}</Text>
-      </View>
-    </TouchableOpacity>
-  );
+  openModal = (item) => this.setState({ modalVisible: true, currentQuestion: item });
+  closeModal = () => this.setState({ modalVisible: false });
+  
+  // TODO: Setar isso no firebase, ou em algum cache
+  setAsAnswered() {
+    question = this.state.currentQuestion;
+    question.answered = true;
+    new_data = this.state.data;
+    new_data[question.id] = question;
+    this.setState({ data: new_data });
+  }
+
+  renderItem = ({ item }) => {
+    if(!item.answered) {
+      return (
+        <TouchableOpacity onPress={() => { this.openModal(item); }}>
+          <View style={styles.listItem}>
+            <View style={styles.listAvatar}>
+              <Icon name='person' size={25} />
+              <Text>{item.user}</Text>          
+            </View>
+            <View style={styles.listQuestion}>
+              <Text>{item.question}</Text>
+            </View>
+          </View>
+        </TouchableOpacity>
+      );
+    }
+  }
+
+  checkAnswer() {
+    if(this.state.currentAnswer === this.state.currentQuestion.answer) {
+      Alert.alert(
+        `Deu Match com ${this.state.currentQuestion.user} sz!`,
+        'Confira na sua aba de matches!',
+        [
+          {text: 'OK', onPress: () => this.closeModal()},
+        ],
+        { cancelable: false }
+      )
+    } else {
+      this.closeModal();
+    }
+  }
 
   render() {
     return (
       <View style={{ backgroundColor: 'purple' }}>
+        {/* TODO: USAR O COMPONENTE SWIPEABLEMODAL, COM REDUX */}
+        <Modal
+          isVisible={this.state.modalVisible}
+          backdropOpacity={0.1}
+          swipeDirection="left"
+          onSwipe={this.closeModal}
+          onBackdropPress={this.closeModal}
+        >
+          <View style={styles.modalContainer}>
+            <Text style={styles.description}>
+              {this.state.currentQuestion.question}
+            </Text>
+            <TextInput
+              autoCapitalize = 'none' 
+              placeholder={"Digite sua resposta aqui"}
+              onChangeText={(currentAnswer) => this.setState({currentAnswer})}
+            />
+            <View style={styles.modalButtons}>
+              <Button title="Cancelar" onPress={this.closeModal} />
+              <Button title="OK!" onPress={() => {
+                  this.checkAnswer();
+                  this.setAsAnswered();
+                }
+              } />
+            </View>
+          </View>
+        </Modal>
         <FlatList
           style={{ marginVertical: 50 }}
           contentContainerStyle={styles.list}
-          data={this.state.data}
+          data={Object.values(this.state.data)}
           renderItem={this.renderItem}
           keyExtractor={item => item.id.toString()}
         />
@@ -47,6 +124,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   listItem: {
+    flex: 4,
     flexDirection: 'row',
     backgroundColor: '#e5bff2',
     marginTop: 20,
@@ -54,5 +132,31 @@ const styles = StyleSheet.create({
   },
   listAvatar: {
     marginRight: 20,
+    flex: 1,
+    alignItems: 'center',
   },
+  listQuestion: {
+    marginRight: 20,
+    flex: 3,
+    justifyContent: 'center',
+  },
+  modalContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "space-between",
+    backgroundColor: "#DCDCDC",
+    borderRadius: 4,
+    borderColor: "#C0C0C0",
+    borderWidth: 2,
+    marginHorizontal: 40,
+    marginVertical: 120
+  },
+  description: {
+    padding: 20,
+    fontSize: 18
+  },
+  modalButtons: {
+    marginVertical: 20,
+    flexDirection: 'row',
+  }
 });
