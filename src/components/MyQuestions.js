@@ -11,45 +11,36 @@ import {
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 
-// TODO: Retirar esse cara depois de adicionar o SWIPEABLEMODAL
-import Modal from "react-native-modal";
-
 export default class MyQuestions extends Component {
   state = {
     data: {
-      0: { id: 0, question: 'Qual a minha comida favorita?', answer: 'macarrao', user: 'jimy', answered: false },
-      1: { id: 1, question: 'Qual o meu filme favorito?', answer: 'titanic', user: 'dri', answered: false  },
-      2: { id: 2, question: 'O que eu mais gosto de jogar?', answer: 'lol', user: 'ale', answered: false  },
-      3: { id: 3, question: 'Qual a minha idade?', answer: '20', user: 'diogo', answered: true  },
-      4: { id: 4, question: 'Restaurante favorito?', answer: 'outback', user: 'tomino', answered: false  },
+      0: { id: 0, question: 'Qual a minha comida favorita?', answer: 'macarrao', answerCount: 10},
+      1: { id: 1, question: 'Qual o meu filme favorito?', answer: 'titanic', answerCount: 30},
+      2: { id: 2, question: 'O que eu mais gosto de jogar?', answer: 'lol', answerCount: 50},
+      3: { id: 3, question: 'Qual a minha idade?', answer: '20', answerCount: 11},
+      4: { id: 4, question: 'Restaurante favorito?', answer: 'outback', answerCount: 10},
     },
-    modalVisible: false,
-    currentQuestion: {},
   };
 
-  openModal = (item) => this.setState({ modalVisible: true, currentQuestion: item });
-  closeModal = () => this.setState({ modalVisible: false });
-  
   // TODO: Setar isso no firebase, ou em algum cache
-  setAsAnswered() {
-    question = this.state.currentQuestion;
-    question.answered = true;
+  removeQuestionFromState(item) {
     new_data = this.state.data;
-    new_data[question.id] = question;
+    delete new_data[item.id];
     this.setState({ data: new_data });
   }
 
   renderItem = ({ item }) => {
     if(!item.answered) {
       return (
-        <TouchableOpacity onPress={() => { this.openModal(item); }}>
+        <TouchableOpacity onPress={() => { this.removeQuestion(item); }}>
           <View style={styles.listItem}>
-            <View style={styles.listAvatar}>
-              <Icon name='face' size={25} />
-              <Text style={styles.listText}>{item.user}</Text>          
-            </View>
             <View style={styles.listQuestion}>
               <Text style={styles.listText}>{item.question}</Text>
+              <Text style={styles.listText2}>{item.answer}</Text>
+              <Text style={styles.listText2}>{`${item.answerCount} respostas`}</Text>
+            </View>
+            <View style={styles.listAvatar}>
+              <Icon name='delete' size={25} color={'purple'}/>
             </View>
           </View>
         </TouchableOpacity>
@@ -57,51 +48,21 @@ export default class MyQuestions extends Component {
     }
   }
 
-  checkAnswer() {
-    if(this.state.currentAnswer === this.state.currentQuestion.answer) {
-      Alert.alert(
-        `Deu Match com ${this.state.currentQuestion.user} sz!`,
-        'Confira na sua aba de matches!',
-        [
-          {text: 'OK', onPress: () => this.closeModal()},
-        ],
-        { cancelable: false }
-      )
-    } else {
-      this.closeModal();
-    }
+  removeQuestion(item) {
+    Alert.alert(
+      'Voce gostaria de remover essa pergunta?',
+      null,
+      [
+        {text: 'Cancel', onPress: () => {style: 'cancel'}},
+        {text: 'OK', onPress: () => this.removeQuestionFromState(item)},
+      ],
+      { cancelable: true }
+    )
   }
 
   render() {
     return (
       <View style={{ backgroundColor: 'purple' }}>
-        {/* TODO: USAR O COMPONENTE SWIPEABLEMODAL, COM REDUX */}
-        <Modal
-          isVisible={this.state.modalVisible}
-          backdropOpacity={0.1}
-          swipeDirection="left"
-          onSwipe={this.closeModal}
-          onBackdropPress={this.closeModal}
-        >
-          <View style={styles.modalContainer}>
-            <Text style={styles.description}>
-              {this.state.currentQuestion.question}
-            </Text>
-            <TextInput
-              autoCapitalize = 'none' 
-              placeholder={"Digite sua resposta aqui"}
-              onChangeText={(currentAnswer) => this.setState({currentAnswer})}
-            />
-            <View style={styles.modalButtons}>
-              <Button title="Cancelar" onPress={this.closeModal} />
-              <Button title="OK!" onPress={() => {
-                  this.checkAnswer();
-                  this.setAsAnswered();
-                }
-              } />
-            </View>
-          </View>
-        </Modal>
         <FlatList
           contentContainerStyle={styles.list}
           data={Object.values(this.state.data)}
@@ -125,18 +86,22 @@ const styles = StyleSheet.create({
     padding: 30,
   },
   listAvatar: {
-    marginRight: 20,
     flex: 1,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   listQuestion: {
-    marginRight: 20,
+    marginLeft: 20,
     flex: 3,
     justifyContent: 'center',
   },
   listText: {
     color: 'purple',
     fontWeight: 'bold',
+    fontSize: 15,
+  },
+  listText2: {
+    color: 'purple',
     fontSize: 15,
   },
   modalContainer: {
