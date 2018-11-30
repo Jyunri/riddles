@@ -3,23 +3,16 @@ import {
   View,
   Button,
   Text,
-  FlatList,
   StyleSheet,
-  TouchableOpacity,
-  TextInput,
-  Alert,
 } from 'react-native';
-import { Icon } from 'react-native-elements';
-
-// TODO: Retirar esse cara depois de adicionar o SWIPEABLEMODAL
-import Modal from "react-native-modal";
+import Swiper from 'react-native-deck-swiper';
 
 export default class Questions extends Component {
   state = {
     data: {
-      0: { id: 0, question: 'Qual a minha comida favorita?', answer: 'macarrao', user: 'jimy', answered: false },
-      1: { id: 1, question: 'Qual o meu filme favorito?', answer: 'titanic', user: 'dri', answered: false  },
-      2: { id: 2, question: 'O que eu mais gosto de jogar?', answer: 'lol', user: 'ale', answered: false  },
+      0: { id: 0, question: 'Eu nunca ', answer: 'macarrao', user: 'jimy', answered: false },
+      1: { id: 1, question: 'Eu nunca to', answer: 'titanic', user: 'dri', answered: false  },
+      2: { id: 2, question: 'Eu nunca falei palavrao', answer: 'lol', user: 'ale', answered: false  },
       3: { id: 3, question: 'Qual a minha idade?', answer: '20', user: 'diogo', answered: true  },
       4: { id: 4, question: 'Restaurante favorito?', answer: 'outback', user: 'tomino', answered: false  },
       5: { id: 5, question: 'Qual a minha comida favorita?', answer: 'macarrao', user: 'yoji', answered: false  },
@@ -31,140 +24,70 @@ export default class Questions extends Component {
       11: { id: 11, question: 'Restaurante favorito?', answer: 'quero', user: 'zocolau', answered: false  },
       12: { id: 12, question: 'Restaurante favorito?', answer: 'quero', user: 'chris', answered: false  },
     },
-    modalVisible: false,
-    currentQuestion: {},
+    cards: [
+      {id: 0, question: 'Eu jah desloquei meu ombro', answer: 'macarrao', user: 'jimy', answered: false },
+      {id: 1, question: 'Eu jah fiz tatuagem', answer: 'titanic', user: 'dri', answered: false  },
+      {id: 2, question: 'Eu jah dei pt no carro', answer: 'lol', user: 'ale', answered: false  },
+      {id: 3, question: 'Eu jah bati minha cabeca no gongo', answer: '20', user: 'diogo', answered: true  },
+      {id: 4, question: 'Eu jah fui quase processado', answer: 'outback', user: 'tomino', answered: false  },
+      {id: 5, question: 'Eu jah fui otaku', answer: 'macarrao', user: 'yoji', answered: false  },
+      {id: 6, question: 'Eu jah fui boyking', answer: 'titanic', user: 'kazu', answered: false  },
+      {id: 7, question: 'Eu ja tive uma namorada loka', answer: 'futebol', user: 'jonathan', answered: false  },
+      {id: 8, question: 'Eu ja morei no eua', answer: '30', user: 'alex', answered: false  },
+      {id: 9, question: 'Eu ja derrubei o banco', answer: 'quero', user: 'refri', answered: false  },
+      {id: 10, question: 'Eu ja virei na empresa subindo tabela', answer: 'quero', user: 'robs', answered: false  },
+      {id: 11, question: 'Eu ja tive megazord', answer: 'quero', user: 'zocolau', answered: false  },
+      {id: 12, question: 'Eu ja fiz uma serie de tv', answer: 'quero', user: 'chris', answered: false  },
+    ],
   };
 
-  openModal = (item) => this.setState({ modalVisible: true, currentQuestion: item });
-  closeModal = () => this.setState({ modalVisible: false });
-  
-  // TODO: Setar isso no firebase, ou em algum cache
-  setAsAnswered() {
-    question = this.state.currentQuestion;
-    question.answered = true;
-    new_data = this.state.data;
-    new_data[question.id] = question;
-    this.setState({ data: new_data });
+  swipeLeft() {
+    this.refs.swiper.swipeLeft();
   }
 
-  renderItem = ({ item }) => {
-    if(!item.answered) {
-      return (
-        <TouchableOpacity onPress={() => { this.openModal(item); }}>
-          <View style={styles.listItem}>
-            <View style={styles.listAvatar}>
-              <Icon name='face' size={25} />
-              <Text style={styles.listText}>{item.user}</Text>          
-            </View>
-            <View style={styles.listQuestion}>
-              <Text style={styles.listText}>{item.question}</Text>
-            </View>
-          </View>
-        </TouchableOpacity>
-      );
-    }
-  }
-
-  checkAnswer() {
-    if(this.state.currentAnswer === this.state.currentQuestion.answer) {
-      Alert.alert(
-        `Deu Match com ${this.state.currentQuestion.user} sz!`,
-        'Confira na sua aba de matches!',
-        [
-          {text: 'OK', onPress: () => this.closeModal()},
-        ],
-        { cancelable: false }
-      )
-    } else {
-      this.closeModal();
-    }
+  swipeRight() {
+    this.refs.swiper.swipeRight();
   }
 
   render() {
     return (
-      <View style={{ backgroundColor: 'purple' }}>
-        {/* TODO: USAR O COMPONENTE SWIPEABLEMODAL, COM REDUX */}
-        <Modal
-          isVisible={this.state.modalVisible}
-          backdropOpacity={0.1}
-          swipeDirection="left"
-          onSwipe={this.closeModal}
-          onBackdropPress={this.closeModal}
-        >
-          <View style={styles.modalContainer}>
-            <Text style={styles.description}>
-              {this.state.currentQuestion.question}
-            </Text>
-            <TextInput
-              autoCapitalize = 'none' 
-              placeholder={"Digite sua resposta aqui"}
-              onChangeText={(currentAnswer) => this.setState({currentAnswer})}
-            />
-            <View style={styles.modalButtons}>
-              <Button title="Cancelar" onPress={this.closeModal} />
-              <Button title="OK!" onPress={() => {
-                  this.checkAnswer();
-                  this.setAsAnswered();
-                }
-              } />
-            </View>
-          </View>
-        </Modal>
-        <FlatList
-          style={{ marginVertical: 20 }}
-          contentContainerStyle={styles.list}
-          data={Object.values(this.state.data)}
-          renderItem={this.renderItem}
-          keyExtractor={item => item.id.toString()}
-        />
+      <View>
+        <Swiper
+          ref = "swiper"
+          cards={this.state.cards}
+          renderCard={(card) => {
+            return (
+              <View style={styles.card}>
+                <Text style={styles.text}>{card.question}</Text>
+              </View>
+            )
+          }}
+          onSwiped={(cardIndex) => {console.log(cardIndex)}}
+          cardIndex={0}
+          backgroundColor={'#4FD0E9'}
+          stackSize= {2}
+          showSecondCard
+          infinite
+          >
+        </Swiper>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  list: {
-    paddingHorizontal: 20,
-  },
-  listItem: {
-    flex: 4,
-    flexDirection: 'row',
-    backgroundColor: '#e5bff2',
-    marginTop: 20,
-    padding: 30,
-  },
-  listAvatar: {
-    marginRight: 20,
-    flex: 1,
-    alignItems: 'center',
-  },
-  listQuestion: {
-    marginRight: 20,
-    flex: 3,
-    justifyContent: 'center',
-  },
-  listText: {
-    color: 'purple',
-    fontWeight: 'bold',
-    fontSize: 15,
-  },
-  modalContainer: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "space-between",
-    backgroundColor: "#DCDCDC",
+  card: {
     borderRadius: 4,
-    borderColor: "#C0C0C0",
     borderWidth: 2,
-    marginHorizontal: 40,
-    marginVertical: 120
-  },
-  description: {
+    borderColor: "#E8E8E8",
+    justifyContent: "center",
+    backgroundColor: "white",
     padding: 20,
-    fontSize: 18
+    height: '50%',
   },
-  modalButtons: {
-    marginVertical: 20,
-    flexDirection: 'row',
+  text: {
+    textAlign: "center",
+    fontSize: 30,
+    backgroundColor: "transparent"
   }
 });

@@ -4,14 +4,14 @@ import { Icon } from 'react-native-elements';
 import { createBottomTabNavigator, createStackNavigator, createAppContainer } from 'react-navigation';
 
 import Profile from './Profile';
-import Questions from './Questions';
+import Feed from './Feed';
 import Settings from './Settings';
 import Matches from './Matches';
 
 const TabNavigator = createBottomTabNavigator(
   {
-    Questions: {
-      screen: Questions,
+    Feed: {
+      screen: Feed,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (<Icon name='list' size={25} color={tintColor} />)
       }
@@ -38,7 +38,7 @@ const TabNavigator = createBottomTabNavigator(
   {
     tabBarOptions: {
       style: {
-        backgroundColor: '#e5bff2',
+        backgroundColor: 'white',
         padding: 5
       }
     }
@@ -55,7 +55,6 @@ const StackNavigator = createStackNavigator({
             justifyContent: 'flex-start',
             alignItems: 'center',
             flexDirection: "row",
-            height: 80,
             marginTop: Platform.OS == "ios" ? 20 : 0,
             paddingLeft: 30
           }}
