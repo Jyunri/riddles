@@ -15,10 +15,14 @@ import Questions from './Questions';
 import Modal from "react-native-modal";
 
 export default class Feed extends Component {
-  state = {
-    createQuestion: false,
-    currentQuestion: {},
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentCredits: 10,
+      createQuestion: false,
+      currentQuestion: {},
+    };
+  }
 
   // modal to create question
   openCreateQuestionModal = () => this.setState({ createQuestion: true });
@@ -35,12 +39,23 @@ export default class Feed extends Component {
 
   triggerQuestionSwipeLeft() {
     this.refs.questions.swipeLeft();
+    this.decrementCredits();
   }
   
+  triggerQuestionSwipeRight() {
+    this.refs.questions.swipeRight();
+    this.decrementCredits();
+  }
+
+  decrementCredits() {
+    currentCredits = this.state.currentCredits;
+    // FIXME: aparentemente alterar o state do componente ta cagando com o index do swiper.
+    this.setState({currentCredits: currentCredits - 1})
+  }
 
   render() {
     return (
-      <View style={{ flex: 6, backgroundColor: 'purple' }}>
+      <View style={{ flex: 8, backgroundColor: 'purple' }}>
         {/* TODO: MAIS UM MODAL PARA COMPONENTIZAR.. */}
         <Modal
           isVisible={this.state.createQuestion}
@@ -62,12 +77,12 @@ export default class Feed extends Component {
             </View>
             <View style={styles.modalButtons}>
               <Button title="Cancelar" onPress={this.closeCreateQuestionModal} />
-              <Button title="OK!" onPress={() => {
+              <Button title="Criar!" onPress={() => {
                   Alert.alert(
-                    `Aqui tem que criar a pergutna de fato na base`,
+                    `Beleza! Vamos ver se alguem ja cometeu essa façanha!`,
                     '',
                     [
-                      {text: 'Criar!', onPress: () => this.closeCreateQuestionModal() }
+                      {text: 'OK!', onPress: () => this.closeCreateQuestionModal() }
                     ],
                     { cancelable: false }
                   )
@@ -76,10 +91,10 @@ export default class Feed extends Component {
             </View>
           </View>
         </Modal>
-        <View style={{ flex: 3 }}>
+        <View style={{ flex: 6 }}>
           <Questions ref="questions"/>
         </View>
-        <View style={{ flex: 2, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 20 }}>
+        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', margin: 20 }}>
           <Icon
             raised
             name='remove'
@@ -97,7 +112,10 @@ export default class Feed extends Component {
             name='check'
             type='font-awesome'
             color='green'
-            onPress={() => this.refs.questions.swipeRight()} />
+            onPress={() => this.triggerQuestionSwipeRight()} />
+        </View>
+        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', padding: 20 }}>
+          <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold' }}>{`${this.state.currentCredits} Creditos restantes`}</Text>
         </View>
       </View>
     );

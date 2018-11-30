@@ -25,19 +25,19 @@ export default class Questions extends Component {
       12: { id: 12, question: 'Restaurante favorito?', answer: 'quero', user: 'chris', answered: false  },
     },
     cards: [
-      {id: 0, question: 'Eu jah desloquei meu ombro', answer: 'macarrao', user: 'jimy', answered: false },
-      {id: 1, question: 'Eu jah fiz tatuagem', answer: 'titanic', user: 'dri', answered: false  },
-      {id: 2, question: 'Eu jah dei pt no carro', answer: 'lol', user: 'ale', answered: false  },
-      {id: 3, question: 'Eu jah bati minha cabeca no gongo', answer: '20', user: 'diogo', answered: true  },
-      {id: 4, question: 'Eu jah fui quase processado', answer: 'outback', user: 'tomino', answered: false  },
-      {id: 5, question: 'Eu jah fui otaku', answer: 'macarrao', user: 'yoji', answered: false  },
-      {id: 6, question: 'Eu jah fui boyking', answer: 'titanic', user: 'kazu', answered: false  },
-      {id: 7, question: 'Eu ja tive uma namorada loka', answer: 'futebol', user: 'jonathan', answered: false  },
-      {id: 8, question: 'Eu ja morei no eua', answer: '30', user: 'alex', answered: false  },
-      {id: 9, question: 'Eu ja derrubei o banco', answer: 'quero', user: 'refri', answered: false  },
-      {id: 10, question: 'Eu ja virei na empresa subindo tabela', answer: 'quero', user: 'robs', answered: false  },
-      {id: 11, question: 'Eu ja tive megazord', answer: 'quero', user: 'zocolau', answered: false  },
-      {id: 12, question: 'Eu ja fiz uma serie de tv', answer: 'quero', user: 'chris', answered: false  },
+      {id: 0, question: 'desloquei meu ombro', answer: 'macarrao', user: 'jimy', answered: false },
+      {id: 1, question: 'fiz tatuagem', answer: 'titanic', user: 'dri', answered: false  },
+      {id: 2, question: 'dei pt no carro', answer: 'lol', user: 'ale', answered: false  },
+      {id: 3, question: 'bati minha cabeca no gongo', answer: '20', user: 'diogo', answered: true  },
+      {id: 4, question: 'fui quase processado', answer: 'outback', user: 'tomino', answered: false  },
+      {id: 5, question: 'fui otaku', answer: 'macarrao', user: 'yoji', answered: false  },
+      {id: 6, question: 'fui boyking', answer: 'titanic', user: 'kazu', answered: false  },
+      {id: 7, question: 'tive uma namorada loka', answer: 'futebol', user: 'jonathan', answered: false  },
+      {id: 8, question: 'morei no eua', answer: '30', user: 'alex', answered: false  },
+      {id: 9, question: 'derrubei o banco', answer: 'quero', user: 'refri', answered: false  },
+      {id: 10, question: 'virei na empresa subindo tabela', answer: 'quero', user: 'robs', answered: false  },
+      {id: 11, question: 'tive megazord', answer: 'quero', user: 'zocolau', answered: false  },
+      {id: 12, question: 'fiz uma serie de tv', answer: 'quero', user: 'chris', answered: false  },
     ],
   };
 
@@ -58,7 +58,12 @@ export default class Questions extends Component {
           renderCard={(card) => {
             return (
               <View style={styles.card}>
-                <Text style={styles.text}>{card.question}</Text>
+                <Text style={styles.text}>
+                  <Text style={{color: 'purple'}}>
+                    Eu JÁ...
+                  </Text>
+                  {card.question}
+                </Text>
               </View>
             )
           }}
@@ -68,6 +73,8 @@ export default class Questions extends Component {
           stackSize= {2}
           showSecondCard
           infinite
+          disableTopSwipe
+          disableBottomSwipe
           >
         </Swiper>
       </View>

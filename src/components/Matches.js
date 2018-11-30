@@ -18,7 +18,7 @@ export default class Matches extends Component {
         title={`${item.user} <3`}
         image={{uri: item.image}}>
         <Text style={styles.listText}>
-          {`Das ${item.questionsCount} perguntas dele(a), voce deu match com ${item.answersMatches} respostas!`}
+          {`Das ${item.questionsCount} perguntas dele(a), voce deu bom com ${item.answersMatches} respostas!`}
         </Text>
         <TouchableOpacity
           style={styles.msgButton}
