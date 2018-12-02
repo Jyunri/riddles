@@ -1,63 +1,38 @@
+// Libs
 import React, { Component } from 'react';
 import { 
   View,
   Text,
-  StyleSheet,
-  Alert,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
+import { connect } from 'react-redux';
+
+// Components
 import Questions from './Questions';
 import NewQuestion from './Modal/NewQuestion';
 
-export default class Feed extends Component {
+// Redux
+import { setCreateQuestion } from '../actions/FeedActions'
+
+class Feed extends Component {
   constructor(props) {
     super(props);
     this.state = {
       currentCredits: 10,
-      createQuestion: false,
-      currentQuestion: {},
+      createQuestion: true,
       cardIndex: 0,
     };
   }
 
   // modal to create question
-  openCreateQuestionModal = () => this.setState({ createQuestion: true });
-
-  // TODO: Setar isso no firebase, ou em algum cache
-  setAsAnswered() {
-    question = this.state.currentQuestion;
-    question.answered = true;
-    new_data = this.state.data;
-    new_data[question.id] = question;
-    this.setState({ data: new_data });
-  }
-
-  hasCredits() {
-    return this.state.currentCredits - 1 >= 0
-  }
+  openCreateQuestionModal = () => this.props.setCreateQuestion(true);
 
   triggerQuestionSwipeLeft() {
-    if(this.hasCredits()){
-      this.refs.questions.swipeLeft();
-      this.decrementCredits();
-    } else {
-      Alert.alert('Voce nao tem mais creditos! Crie uma pergunta para ganhar mais')
-    }
+    this.refs.questions.getWrappedInstance().swipeLeft();
   }
   
   triggerQuestionSwipeRight() {
-    if(this.hasCredits()){
-      this.refs.questions.swipeRight();
-      this.decrementCredits();
-    } else {
-      Alert.alert('Voce nao tem mais creditos! Crie uma pergunta para ganhar mais')
-    }
-  }
-
-  decrementCredits() {
-    cardIndex = this.refs.questions.getNextIndex();
-    currentCredits = this.state.currentCredits;
-    this.setState({currentCredits: currentCredits - 1, cardIndex})
+    this.refs.questions.getWrappedInstance().swipeRight();
   }
 
   render() {
@@ -65,7 +40,7 @@ export default class Feed extends Component {
       <View style={{ flex: 8, backgroundColor: 'purple' }}>
         <NewQuestion createQuestion={this.state.createQuestion} />
         <View style={{ flex: 6 }}>
-          <Questions ref="questions" cardIndex={this.state.cardIndex} />
+          <Questions ref="questions" />
         </View>
         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', margin: 20 }}>
           <Icon
@@ -88,9 +63,18 @@ export default class Feed extends Component {
             onPress={() => this.triggerQuestionSwipeRight()} />
         </View>
         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', padding: 20 }}>
-          <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold' }}>{`${this.state.currentCredits} Creditos restantes`}</Text>
+          <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold' }}>{`${this.props.currentCredits} Creditos restantes`}</Text>
         </View>
       </View>
     );
   }
 }
+
+const mapStateToProps = state => (
+  {
+    currentCredits: state.FeedReducer.currentCredits,
+    senha: state.FeedReducer.senha
+  }
+)
+
+export default connect(mapStateToProps, {setCreateQuestion})(Feed)

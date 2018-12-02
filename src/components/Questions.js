@@ -1,13 +1,18 @@
+// Libs
 import React, { Component } from 'react';
 import { 
   View,
-  Button,
   Text,
   StyleSheet,
+  Alert,
 } from 'react-native';
 import Swiper from 'react-native-deck-swiper';
+import { connect } from 'react-redux';
 
-export default class Questions extends Component {
+// Redux
+import { setCurrentCredits } from '../actions/FeedActions'
+
+class Questions extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -32,17 +37,33 @@ export default class Questions extends Component {
   getSwiper() {
     return this.refs.swiper;
   }
+  
+  hasCredits() {
+    return this.props.currentCredits - 1 >= 0
+  }
 
   swipeLeft() {
-    this.getSwiper().swipeLeft();
+    if(this.hasCredits()){
+      this.getSwiper().swipeLeft();
+    } else {
+      Alert.alert('Voce nao tem mais creditos! Crie uma pergunta para ganhar mais');
+    }
   }
 
   swipeRight() {
-    this.getSwiper().swipeRight();
+    if(this.hasCredits()){
+      this.getSwiper().swipeRight();
+    } else {
+      Alert.alert('Voce nao tem mais creditos! Crie uma pergunta para ganhar mais');
+    }
   }
 
-  getNextIndex() {
-    return this.getSwiper().state.secondCardIndex;
+  // TODO: Atualizar no BD tambem
+  decrementCredits() {
+    this.props.setCurrentCredits(this.props.currentCredits - 1);
+    if(!this.hasCredits()){
+      Alert.alert('Voce nao tem mais creditos! Crie uma pergunta para ganhar mais');
+    }
   }
 
   render() {
@@ -63,14 +84,18 @@ export default class Questions extends Component {
               </View>
             )
           }}
-          onSwiped={(cardIndex) => {}}
+          onSwiped={(_cardIndex) => {
+            this.decrementCredits();
+          }}
           cardIndex={this.props.cardIndex}
           backgroundColor={'#4FD0E9'}
-          stackSize= {2}
+          stackSize={2}
           showSecondCard
           infinite
           disableTopSwipe
           disableBottomSwipe
+          disableLeftSwipe={!this.hasCredits()}
+          disableRightSwipe={!this.hasCredits()} 
           >
         </Swiper>
       </View>
@@ -94,3 +119,12 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent"
   }
 });
+
+const mapStateToProps = state => (
+  {
+    cardIndex: state.FeedReducer.cardIndex,
+    currentCredits: state.FeedReducer.currentCredits,
+  }
+)
+
+export default connect(mapStateToProps, { setCurrentCredits }, null,  { withRef: true })(Questions)

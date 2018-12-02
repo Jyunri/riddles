@@ -1,3 +1,4 @@
+// Libs
 import React, { Component } from 'react';
 import { 
   View,
@@ -7,12 +8,15 @@ import {
   TextInput,
   Alert,
 } from 'react-native';
+import { connect } from 'react-redux';
+import Modal from "react-native-modal";  // TODO: Retirar esse cara depois de adicionar o SWIPEABLEMODAL
 
-// TODO: Retirar esse cara depois de adicionar o SWIPEABLEMODAL
-import Modal from "react-native-modal";
+// Redux
+import { setCreateQuestion } from '../../actions/FeedActions'
 
-export default class Questions extends Component {
-  closeCreateQuestionModal = () => this.refs.modal.close();
+
+class NewQuestion extends Component {
+  closeCreateQuestionModal = () => this.props.setCreateQuestion(false);
 
   render() {
     return (
@@ -55,6 +59,12 @@ export default class Questions extends Component {
   }
 }  
 
+const mapStateToProps = state => (
+  {
+    createQuestion: state.FeedReducer.createQuestion,
+  }
+)
+
 const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
@@ -76,3 +86,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
 });
+
+export default connect(mapStateToProps, {setCreateQuestion})(NewQuestion)
