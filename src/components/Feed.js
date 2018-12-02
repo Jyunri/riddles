@@ -1,18 +1,13 @@
 import React, { Component } from 'react';
 import { 
   View,
-  Button,
   Text,
   StyleSheet,
-  TextInput,
   Alert,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
-import ActionButton from 'react-native-action-button';
 import Questions from './Questions';
-
-// TODO: Retirar esse cara depois de adicionar o SWIPEABLEMODAL
-import Modal from "react-native-modal";
+import NewQuestion from './Modal/NewQuestion';
 
 export default class Feed extends Component {
   constructor(props) {
@@ -21,12 +16,12 @@ export default class Feed extends Component {
       currentCredits: 10,
       createQuestion: false,
       currentQuestion: {},
+      cardIndex: 0,
     };
   }
 
   // modal to create question
   openCreateQuestionModal = () => this.setState({ createQuestion: true });
-  closeCreateQuestionModal = () => this.setState({ createQuestion: false });
 
   // TODO: Setar isso no firebase, ou em algum cache
   setAsAnswered() {
@@ -37,62 +32,40 @@ export default class Feed extends Component {
     this.setState({ data: new_data });
   }
 
+  hasCredits() {
+    return this.state.currentCredits - 1 >= 0
+  }
+
   triggerQuestionSwipeLeft() {
-    this.refs.questions.swipeLeft();
-    this.decrementCredits();
+    if(this.hasCredits()){
+      this.refs.questions.swipeLeft();
+      this.decrementCredits();
+    } else {
+      Alert.alert('Voce nao tem mais creditos! Crie uma pergunta para ganhar mais')
+    }
   }
   
   triggerQuestionSwipeRight() {
-    this.refs.questions.swipeRight();
-    this.decrementCredits();
+    if(this.hasCredits()){
+      this.refs.questions.swipeRight();
+      this.decrementCredits();
+    } else {
+      Alert.alert('Voce nao tem mais creditos! Crie uma pergunta para ganhar mais')
+    }
   }
 
   decrementCredits() {
+    cardIndex = this.refs.questions.getNextIndex();
     currentCredits = this.state.currentCredits;
-    // FIXME: aparentemente alterar o state do componente ta cagando com o index do swiper.
-    this.setState({currentCredits: currentCredits - 1})
+    this.setState({currentCredits: currentCredits - 1, cardIndex})
   }
 
   render() {
     return (
       <View style={{ flex: 8, backgroundColor: 'purple' }}>
-        {/* TODO: MAIS UM MODAL PARA COMPONENTIZAR.. */}
-        <Modal
-          isVisible={this.state.createQuestion}
-          backdropOpacity={0.1}
-          swipeDirection="left"
-          onSwipe={this.closeCreateQuestionModal}
-          onBackdropPress={this.closeCreateQuestionModal}
-        >
-          <View style={styles.modalContainer}>
-            <Text style={styles.description}>
-              {"Criar façanha!"}
-            </Text>
-            <View style={{alignItems: 'center'}}>
-              <Text style={{lineHeight: 80}}>Eu jah..</Text>
-              <TextInput
-                autoCapitalize = 'none' 
-                placeholder={"Digite sua façanha aqui"}
-              />
-            </View>
-            <View style={styles.modalButtons}>
-              <Button title="Cancelar" onPress={this.closeCreateQuestionModal} />
-              <Button title="Criar!" onPress={() => {
-                  Alert.alert(
-                    `Beleza! Vamos ver se alguem ja cometeu essa façanha!`,
-                    '',
-                    [
-                      {text: 'OK!', onPress: () => this.closeCreateQuestionModal() }
-                    ],
-                    { cancelable: false }
-                  )
-                }
-              } />
-            </View>
-          </View>
-        </Modal>
+        <NewQuestion createQuestion={this.state.createQuestion} />
         <View style={{ flex: 6 }}>
-          <Questions ref="questions"/>
+          <Questions ref="questions" cardIndex={this.state.cardIndex} />
         </View>
         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', margin: 20 }}>
           <Icon
@@ -121,26 +94,3 @@ export default class Feed extends Component {
     );
   }
 }
-
-
-const styles = StyleSheet.create({
-  modalContainer: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "space-between",
-    backgroundColor: "#DCDCDC",
-    borderRadius: 4,
-    borderColor: "#C0C0C0",
-    borderWidth: 2,
-    marginHorizontal: 40,
-    marginVertical: 120
-  },
-  description: {
-    padding: 20,
-    fontSize: 18
-  },
-  modalButtons: {
-    marginVertical: 20,
-    flexDirection: 'row',
-  },
-});
