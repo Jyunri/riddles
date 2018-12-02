@@ -12,12 +12,11 @@ import { connect } from 'react-redux';
 import Modal from "react-native-modal";  // TODO: Retirar esse cara depois de adicionar o SWIPEABLEMODAL
 
 // Redux
-import { setCreateQuestion } from '../../actions/FeedActions'
-
+import { setCreateQuestion, setCurrentCredits } from '../../actions/FeedActions'
 
 class NewQuestion extends Component {
   closeCreateQuestionModal = () => this.props.setCreateQuestion(false);
-
+  incrementCredits = () => this.props.setCurrentCredits(this.props.currentCredits + 1);
   render() {
     return (
       <Modal
@@ -49,7 +48,8 @@ class NewQuestion extends Component {
                     {text: 'OK!', onPress: () => this.closeCreateQuestionModal() }
                   ],
                   { cancelable: false }
-                )
+                );
+                this.incrementCredits();
               }
             } />
           </View>
@@ -62,6 +62,7 @@ class NewQuestion extends Component {
 const mapStateToProps = state => (
   {
     createQuestion: state.FeedReducer.createQuestion,
+    currentCredits: state.FeedReducer.currentCredits,
   }
 )
 
@@ -87,4 +88,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(mapStateToProps, {setCreateQuestion})(NewQuestion)
+export default connect(mapStateToProps, {setCreateQuestion, setCurrentCredits})(NewQuestion)

@@ -15,27 +15,36 @@ import { setCurrentCredits } from '../actions/FeedActions'
 class Questions extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      cards: [
-        {id: 0, question: 'desloquei meu ombro', answer: 'macarrao', user: 'jimy', answered: false },
-        {id: 1, question: 'fiz tatuagem', answer: 'titanic', user: 'dri', answered: false  },
-        {id: 2, question: 'dei pt no carro', answer: 'lol', user: 'ale', answered: false  },
-        {id: 3, question: 'bati minha cabeca no gongo', answer: '20', user: 'diogo', answered: true  },
-        {id: 4, question: 'fui quase processado', answer: 'outback', user: 'tomino', answered: false  },
-        {id: 5, question: 'fui otaku', answer: 'macarrao', user: 'yoji', answered: false  },
-        {id: 6, question: 'fui boyking', answer: 'titanic', user: 'kazu', answered: false  },
-        {id: 7, question: 'tive uma namorada loka', answer: 'futebol', user: 'jonathan', answered: false  },
-        {id: 8, question: 'morei no eua', answer: '30', user: 'alex', answered: false  },
-        {id: 9, question: 'derrubei o banco', answer: 'quero', user: 'refri', answered: false  },
-        {id: 10, question: 'virei na empresa subindo tabela', answer: 'quero', user: 'robs', answered: false  },
-        {id: 11, question: 'tive megazord', answer: 'quero', user: 'zocolau', answered: false  },
-        {id: 12, question: 'fiz uma serie de tv', answer: 'quero', user: 'chris', answered: false  },
-      ],
-    };
+    this.cards = [
+      {id: 0, question: 'desloquei meu ombro', answer: 'macarrao', user: 'jimy', answered: false, gender: 'male' },
+      {id: 1, question: 'fiz tatuagem', answer: 'titanic', user: 'dri', answered: false, gender: 'female'  },
+      {id: 2, question: 'dei pt no carro', answer: 'lol', user: 'ale', answered: false, gender: 'male'  },
+      {id: 3, question: 'bati minha cabeca no gongo', answer: '20', user: 'diogo', answered: true, gender: 'female'  },
+      {id: 4, question: 'fui quase processado', answer: 'outback', user: 'tomino', answered: false, gender: 'male'  },
+      {id: 5, question: 'fui otaku', answer: 'macarrao', user: 'yoji', answered: false, gender: 'male'  },
+      {id: 6, question: 'fui boyking', answer: 'titanic', user: 'kazu', answered: false, gender: 'male'  },
+      {id: 7, question: 'tive uma namorada loka', answer: 'futebol', user: 'jonathan', answered: false, gender: 'male'  },
+      {id: 8, question: 'morei no eua', answer: '30', user: 'alex', answered: false, gender: 'male'  },
+      {id: 9, question: 'derrubei o banco', answer: 'quero', user: 'refri', answered: false, gender: 'female'  },
+      {id: 10, question: 'virei na empresa subindo tabela', answer: 'quero', user: 'robs', answered: false, gender: 'male'  },
+      {id: 11, question: 'tive megazord', answer: 'quero', user: 'zocolau', answered: false, gender: 'male'  },
+      {id: 12, question: 'fiz uma serie de tv', answer: 'quero', user: 'chris', answered: false, gender: 'male'  },
+    ];
   }
 
   getSwiper() {
     return this.refs.swiper;
+  }
+
+  getCardColor(gender){
+    switch(gender) {
+      case 'male':
+        return 'lightblue';
+      case 'female':
+        return 'pink';
+      default:
+        return 'white';
+    }
   }
   
   hasCredits() {
@@ -71,10 +80,10 @@ class Questions extends Component {
       <View>
         <Swiper
           ref = "swiper"
-          cards={this.state.cards}
+          cards={this.cards}
           renderCard={(card) => {
             return (
-              <View style={styles.card}>
+              <View style={{...styles.card, backgroundColor: this.getCardColor(card.gender)}}>
                 <Text style={styles.text}>
                   <Text style={{color: 'purple'}}>
                     Eu NUNCA...
@@ -106,10 +115,9 @@ class Questions extends Component {
 const styles = StyleSheet.create({
   card: {
     borderRadius: 4,
-    borderWidth: 2,
-    borderColor: "#E8E8E8",
+    borderWidth: 3,
+    borderColor: "white",
     justifyContent: "center",
-    backgroundColor: "white",
     padding: 20,
     height: '50%',
   },

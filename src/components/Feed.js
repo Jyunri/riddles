@@ -17,11 +17,6 @@ import { setCreateQuestion } from '../actions/FeedActions'
 class Feed extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      currentCredits: 10,
-      createQuestion: true,
-      cardIndex: 0,
-    };
   }
 
   // modal to create question
@@ -38,7 +33,7 @@ class Feed extends Component {
   render() {
     return (
       <View style={{ flex: 8, backgroundColor: 'purple' }}>
-        <NewQuestion createQuestion={this.state.createQuestion} />
+        <NewQuestion />
         <View style={{ flex: 6 }}>
           <Questions ref="questions" />
         </View>
