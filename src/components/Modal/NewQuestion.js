@@ -42,7 +42,7 @@ class NewQuestion extends Component {
             <Button title="Cancelar" onPress={this.closeCreateQuestionModal} />
             <Button title="Criar!" onPress={() => {
                 Alert.alert(
-                  `Beleza! Vamos ver se alguem ja cometeu essa façanha!`,
+                  `Beleza! Vamos ver se alguem ja cometeu essa proeza!`,
                   '',
                   [
                     {text: 'OK!', onPress: () => this.closeCreateQuestionModal() }
