@@ -32,7 +32,7 @@ class NewQuestion extends Component {
             {"Criar façanha!"}
           </Text>
           <View style={{alignItems: 'center'}}>
-            <Text style={{lineHeight: 80}}>Eu jah..</Text>
+            <Text style={{lineHeight: 80}}>Eu NUNCA..</Text>
             <TextInput
               autoCapitalize = 'none' 
               placeholder={"Digite sua façanha aqui"}

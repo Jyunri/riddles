@@ -32,12 +32,12 @@ class Feed extends Component {
 
   render() {
     return (
-      <View style={{ flex: 8, backgroundColor: 'purple' }}>
+      <View style={{ flex: 6, backgroundColor: 'purple' }}>
         <NewQuestion />
-        <View style={{ flex: 6 }}>
+        <View style={{ flex: 4 }}>
           <Questions ref="questions" />
         </View>
-        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', margin: 20 }}>
+        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', margin: 30 }}>
           <Icon
             raised
             name='remove'

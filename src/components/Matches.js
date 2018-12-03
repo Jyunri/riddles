@@ -6,16 +6,18 @@ import { Card, Icon } from 'react-native-elements';
 export default class Matches extends Component {
   state = {
     data: [
-      { id: 1, user: 'Jimy Suenaga', image: 'https://github.com/jyunri.png', questionsCount: 10, answersMatches: 10  },
+      { id: 1, user: 'Robisnei', image: 'https://github.com/robisnei.png', questionsCount: 10, answersMatches: 10  },
       { id: 2, user: 'Alexandre Pedroso', image: 'https://github.com/alempedroso.png', questionsCount: 10, answersMatches: 9  },
-      { id: 3, user: 'Diogo Felix', image: 'https://github.com/onlurking.png', questionsCount: 7, answersMatches: 4  },
+      { id: 3, user: 'Yoji Kojio', image: 'https://github.com/yoji-kojio.png', questionsCount: 7, answersMatches: 4  },
     ],
   };
 
   renderItem = ({ item }) => (
     <View style={styles.listItem}>
      <Card
+        wrapperStyle={{ backgroundColor: 'purple' }}
         title={`${item.user} <3`}
+        titleStyle={{ color: 'white' }}
         image={{uri: item.image}}>
         <Text style={styles.listText}>
           {`Das ${item.questionsCount} perguntas dele(a), voce deu bom com ${item.answersMatches} respostas!`}
@@ -34,7 +36,7 @@ export default class Matches extends Component {
     return (
       <View style={{ backgroundColor: 'purple' }}>
         <FlatList
-          style={{ marginVertical: 50 }}
+          style={{ marginVertical: 20 }}
           contentContainerStyle={styles.list}
           data={this.state.data}
           renderItem={this.renderItem}
@@ -51,11 +53,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   listItem: {
-    backgroundColor: '#e5bff2',
-    marginTop: 20,
+    backgroundColor: 'white',
+    marginVertical: 20,
   },
   listText: {
-    color: 'purple',
+    color: 'white',
     fontWeight: 'bold',
     fontSize: 15,
     marginVertical: 10,
