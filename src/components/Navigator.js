@@ -10,7 +10,7 @@ import Matches from './Matches';
 
 const TabNavigator = createBottomTabNavigator(
   {
-    Feed: {
+    Proezas: {
       screen: Feed,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (<Icon name='list' size={25} color={tintColor} />)
@@ -22,21 +22,22 @@ const TabNavigator = createBottomTabNavigator(
         tabBarIcon: ({ tintColor }) => (<Icon name='favorite' size={25} color={tintColor} />)
       }
     },
-    Profile: {
+    Perfil: {
       screen: Profile,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (<Icon name='person' size={25} color={tintColor} />)
       }
     },
-    Settings: {
-      screen: Settings,
-      navigationOptions: {
-        tabBarIcon: ({ tintColor }) => (<Icon name='settings' size={25} color={tintColor} />)
-      }
-    },
+    // Settings: {
+    //   screen: Settings,
+    //   navigationOptions: {
+    //     tabBarIcon: ({ tintColor }) => (<Icon name='settings' size={25} color={tintColor} />)
+    //   }
+    // },
   },
   {
     tabBarOptions: {
+      activeTintColor: 'purple',
       style: {
         backgroundColor: 'white',
         padding: 5

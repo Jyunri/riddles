@@ -39,7 +39,7 @@ class MyQuestions extends Component {
     return (
       <View style={styles.listItem}>
         <View>
-          <Text style={styles.listText}>{item.question}</Text>
+          <Text style={styles.listText}>{`Eu NUNCA ${item.question}`}</Text>
         </View>
       </View>
     )

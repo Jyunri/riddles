@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import MyQuestions from './Modal/MyQuestions';
 
 // Redux
-import { showAnsweredQuestionsModal } from '../actions/ProfileActions'
+import { showAnsweredQuestionsModal } from '../actions/ProfileActions';
 
 class Profile extends Component {
   render() {

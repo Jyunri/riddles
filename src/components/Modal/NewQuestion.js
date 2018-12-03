@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import Modal from "react-native-modal";  // TODO: Retirar esse cara depois de adicionar o SWIPEABLEMODAL
 
 // Redux
-import { setCreateQuestion, setCurrentCredits } from '../../actions/FeedActions'
+import { setCreateQuestion, setCurrentCredits } from '../../actions/FeedActions';
 
 class NewQuestion extends Component {
   closeCreateQuestionModal = () => this.props.setCreateQuestion(false);
@@ -29,13 +29,13 @@ class NewQuestion extends Component {
       >
         <View style={styles.modalContainer}>
           <Text style={styles.description}>
-            {"Criar façanha!"}
+            {"Criar proeza!"}
           </Text>
           <View style={{alignItems: 'center'}}>
             <Text style={{lineHeight: 80}}>Eu NUNCA..</Text>
             <TextInput
               autoCapitalize = 'none' 
-              placeholder={"Digite sua façanha aqui"}
+              placeholder={"Digite sua proeza aqui"}
             />
           </View>
           <View style={styles.modalButtons}>

@@ -15,10 +15,6 @@ import NewQuestion from './Modal/NewQuestion';
 import { setCreateQuestion } from '../actions/FeedActions'
 
 class Feed extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   // modal to create question
   openCreateQuestionModal = () => this.props.setCreateQuestion(true);
 

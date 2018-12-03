@@ -20,7 +20,7 @@ export default class Matches extends Component {
         titleStyle={{ color: 'white' }}
         image={{uri: item.image}}>
         <Text style={styles.listText}>
-          {`Das ${item.questionsCount} perguntas dele(a), voce deu bom com ${item.answersMatches} respostas!`}
+          {`Voce deu bom com ${item.answersMatches} proezas dele(a)!`}
         </Text>
         <TouchableOpacity
           style={styles.msgButton}
