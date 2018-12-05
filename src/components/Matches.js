@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import { View, Text, FlatList, StyleSheet, Button, TouchableOpacity } from 'react-native';
-import { Card, Icon } from 'react-native-elements';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { Card, Button } from 'react-native-elements';
 
 export default class Matches extends Component {
   state = {
@@ -22,12 +22,17 @@ export default class Matches extends Component {
         <Text style={styles.listText}>
           {`Voce deu bom com ${item.answersMatches} proezas dele(a)!`}
         </Text>
-        <TouchableOpacity
+        <Button
+          title='Ver Perfil'
+          buttonStyle={ styles.msgButton }
+          onPress={ () => alert('em construcao')}
+        />
+        {/* <TouchableOpacity
           style={styles.msgButton}
           onPress={() => alert('em construcao')}
           underlayColor='#fff'>
             <Text style={styles.msgText}>Ver Perfil</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </Card>
     </View>
   );
@@ -64,20 +69,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   msgButton: {
-    marginRight:40,
-    marginLeft:40,
+    marginRight:10,
+    marginLeft:10,
     marginTop:10,
-    paddingTop:10,
-    paddingBottom:10,
     backgroundColor:'purple',
     borderRadius:10,
     borderWidth: 1,
     borderColor: '#fff'
   },
-  msgText: {
-    color:'#fff',
-    textAlign:'center',
-    paddingLeft : 10,
-    paddingRight : 10
-  }
 });
