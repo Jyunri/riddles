@@ -2,12 +2,12 @@
 import React, { Component } from 'react';
 import { 
   View,
-  Button,
   Text,
   StyleSheet,
   TextInput,
   Alert,
 } from 'react-native';
+import { Button, Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import Modal from "react-native-modal";  // TODO: Retirar esse cara depois de adicionar o SWIPEABLEMODAL
 
@@ -28,6 +28,9 @@ class NewQuestion extends Component {
         onBackdropPress={this.closeCreateQuestionModal}
       >
         <View style={styles.modalContainer}>
+          <View style={{position: 'absolute', right: 1, top: 1 }}>
+            <Icon type='font-awesome' name="times-circle" color='purple' onPress={() => this.closeCreateQuestionModal()} />
+          </View>
           <Text style={styles.description}>
             {"Criar proeza!"}
           </Text>
@@ -38,9 +41,9 @@ class NewQuestion extends Component {
               placeholder={"Digite sua proeza aqui"}
             />
           </View>
-          <View style={styles.modalButtons}>
-            <Button title="Cancelar" onPress={this.closeCreateQuestionModal} />
-            <Button title="Criar!" onPress={() => {
+          <View style={styles.modalButtonsContainer}>
+            {/* <Button title="Cancelar" onPress={this.closeCreateQuestionModal} /> */}
+            <Button buttonStyle={styles.modalButton} title="Criar!" onPress={() => {
                 Alert.alert(
                   `Beleza! Vamos ver se alguem ja cometeu essa proeza!`,
                   '',
@@ -68,7 +71,6 @@ const mapStateToProps = state => (
 
 const styles = StyleSheet.create({
   modalContainer: {
-    flex: 1,
     alignItems: "center",
     justifyContent: "space-between",
     backgroundColor: "#DCDCDC",
@@ -76,15 +78,21 @@ const styles = StyleSheet.create({
     borderColor: "#C0C0C0",
     borderWidth: 2,
     marginHorizontal: 40,
-    marginVertical: 120
+    marginVertical: 120,
   },
   description: {
-    padding: 20,
+    padding: 10,
+    marginVertical: 10,
     fontSize: 18
   },
-  modalButtons: {
+  modalButtonsContainer: {
     marginVertical: 20,
+    justifyContent: 'space-between',
     flexDirection: 'row',
+  },
+  modalButton: {
+    width: '100%',
+    backgroundColor: 'purple',
   },
 });
 
