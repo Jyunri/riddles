@@ -25,18 +25,20 @@ class Profile extends Component {
           <Text style={styles.listText}>{'Total de perguntas respondidas: 10'}</Text>
         </View>
         <View style={styles.titleContainer}>
-          <Button
-            title='Perguntas criadas por mim'
-            buttonStyle={ styles.button }
-            onPress={ () => alert('em construcao') }
-            raised
-          />
-          <Button
-            title='Perguntas que eu respondi'
-            buttonStyle={ styles.button }
-            onPress={ () => this.props.showAnsweredQuestionsModal(true) }
-            raised
-          />
+          <View style={{ margin: 5 }}>
+            <Button
+              title='Perguntas criadas por mim'
+              buttonStyle={ styles.button }
+              onPress={ () => alert('em construcao') }
+            />
+          </View>
+          <View style={{ margin: 5 }}>
+            <Button
+              title='Perguntas que eu respondi'
+              buttonStyle={ styles.button }
+              onPress={ () => this.props.showAnsweredQuestionsModal(true) }
+            />
+          </View>
         </View>
         
         {/* <MyQuestions /> */}
@@ -62,6 +64,7 @@ const styles = StyleSheet.create({
     marginVertical: 30,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: 'purple',
   },
   title: {
     color: 'white',
@@ -72,7 +75,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'purple',
     width: 300,
     height: 45,
-    margin: 10,
+    // margin: 10,
     borderColor: "white",
     borderWidth: 1,
     borderRadius: 10,

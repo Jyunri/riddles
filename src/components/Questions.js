@@ -77,7 +77,7 @@ class Questions extends Component {
 
   render() {
     return (
-      <View>
+      <View style={styles.container}>
         <Swiper
           ref = "swiper"
           cards={this.cards}
@@ -97,7 +97,7 @@ class Questions extends Component {
             this.decrementCredits();
           }}
           cardIndex={this.props.cardIndex}
-          backgroundColor={'#4FD0E9'}
+          backgroundColor={'purple'}
           stackSize={2}
           showSecondCard
           infinite
@@ -113,6 +113,9 @@ class Questions extends Component {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
   card: {
     borderRadius: 4,
     borderWidth: 3,

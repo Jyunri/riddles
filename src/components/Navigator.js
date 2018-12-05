@@ -31,7 +31,7 @@ const TabNavigator = createBottomTabNavigator(
     // Settings: {
     //   screen: Settings,
     //   navigationOptions: {
-    //     tabBarIcon: ({ tintColor }) => (<Icon name='settings' size={25} color={tintColor} />)
+    //     tabBarIcon: ({ tintColor }) => (<Icon name='settings' size={25} color={tintColor}  />)
     //   }
     // },
   },
