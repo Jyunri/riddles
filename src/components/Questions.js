@@ -81,15 +81,16 @@ class Questions extends Component {
   }
 
   renderCards() {
-    if (this.props.currentCards) {
+    const currentCards = this.props.currentCards;
+    if (currentCards.length !== 0) {
       return (
         <Swiper
-          ref ="swiper"
-          cards={this.props.currentCards}
+          ref="swiper"
+          cards={currentCards}
           renderCard={(card) => (
-            <View style={{...styles.card, backgroundColor: this.getCardColor(card.gender)}}>
+            <View style={{ ...styles.card, backgroundColor: this.getCardColor(card.gender) }}>
               <Text style={styles.text}>
-                <Text style={{color: 'purple'}}>
+                <Text style={{ color: 'purple' }}>
                   Eu NUNCA...
                 </Text>
                 {card.description}
@@ -112,9 +113,11 @@ class Questions extends Component {
       );
     }
     return (
-      <View>
-      <View>carregando</View>
-      <ActivityIndicator size='large' />
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size='large' />
+        <View style={{margin: 10}}>
+          <Text style={styles.loadingText}>{'Carregando Proezas'}</Text>
+        </View>
       </View>
     );
   }
@@ -145,7 +148,17 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 25,
     backgroundColor: 'transparent'
-  }
+  },
+  loadingContainer: {
+    margin: 20,
+    padding: 20,
+  },
+  loadingText: {
+    textAlign: 'center',
+    fontSize: 25,
+    fontWeight: 'bold',
+    color: 'white',
+  },
 });
 
 const mapStateToProps = state => (
