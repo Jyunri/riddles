@@ -5,39 +5,44 @@ import {
   Text,
   StyleSheet,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
 import Swiper from 'react-native-deck-swiper';
 import { connect } from 'react-redux';
+import firebase from 'firebase';
 
 // Redux
-import { setCurrentCredits } from '../actions/FeedActions'
+import { setCurrentCredits, setCurentCards } from '../actions/FeedActions';
 
 class Questions extends Component {
-  constructor(props) {
-    super(props);
-    this.cards = [
-      {id: 0, question: 'desloquei meu ombro', answer: 'macarrao', user: 'jimy', answered: false, gender: 'male' },
-      {id: 1, question: 'fiz tatuagem', answer: 'titanic', user: 'dri', answered: false, gender: 'female'  },
-      {id: 2, question: 'dei pt no carro', answer: 'lol', user: 'ale', answered: false, gender: 'male'  },
-      {id: 3, question: 'bati minha cabeca no gongo', answer: '20', user: 'diogo', answered: true, gender: 'male'  },
-      {id: 4, question: 'fui quase processado', answer: 'outback', user: 'tomino', answered: false, gender: 'female'  },
-      {id: 5, question: 'fiz dancefit', answer: 'macarrao', user: 'yoji', answered: false, gender: 'male'  },
-      {id: 6, question: 'fui boyking', answer: 'titanic', user: 'kazu', answered: false, gender: 'male'  },
-      {id: 7, question: 'tive uma namorada loka', answer: 'futebol', user: 'jonathan', answered: false, gender: 'male'  },
-      {id: 8, question: 'morei no eua', answer: '30', user: 'alex', answered: false, gender: 'male'  },
-      {id: 9, question: 'derrubei o banco', answer: 'quero', user: 'refri', answered: false, gender: 'female'  },
-      {id: 10, question: 'virei na empresa subindo tabela', answer: 'quero', user: 'robs', answered: false, gender: 'male'  },
-      {id: 11, question: 'tive megazord', answer: 'quero', user: 'zocolau', answered: false, gender: 'male'  },
-      {id: 12, question: 'fiz uma serie de tv', answer: 'quero', user: 'chris', answered: false, gender: 'male'  },
-    ];
+  componentWillMount() {
+    // TODO: Colocar isso no infra/firebase.js
+    const config = {
+      apiKey: 'AIzaSyCEHGCtucJR-fs5YZNdni6dpqeOF1rGEew',
+      authDomain: 'riddles-3813b.firebaseapp.com',
+      databaseURL: 'https://riddles-3813b.firebaseio.com',
+      projectId: 'riddles-3813b',
+      storageBucket: 'riddles-3813b.appspot.com',
+      messagingSenderId: '643049252508'
+    };
+    firebase.initializeApp(config);
+    this.database = firebase.database();
+    this.fetchCards();
+  }
+
+  fetchCards() {
+    const featRef = firebase.database().ref('feats');
+    featRef.on('value', (snapshot) => {
+      this.props.setCurentCards(Object.values(snapshot.val()));
+    });
   }
 
   getSwiper() {
     return this.refs.swiper;
   }
 
-  getCardColor(gender){
-    switch(gender) {
+  getCardColor(gender) {
+    switch (gender) {
       case 'male':
         return 'lightblue';
       case 'female':
@@ -48,11 +53,11 @@ class Questions extends Component {
   }
   
   hasCredits() {
-    return this.props.currentCredits - 1 >= 0
+    return this.props.currentCredits - 1 >= 0;
   }
 
   swipeLeft() {
-    if(this.hasCredits()){
+    if (this.hasCredits()) {
       this.getSwiper().swipeLeft();
     } else {
       Alert.alert('Voce nao tem mais creditos! Crie uma pergunta para ganhar mais');
@@ -60,7 +65,7 @@ class Questions extends Component {
   }
 
   swipeRight() {
-    if(this.hasCredits()){
+    if (this.hasCredits()) {
       this.getSwiper().swipeRight();
     } else {
       Alert.alert('Voce nao tem mais creditos! Crie uma pergunta para ganhar mais');
@@ -70,43 +75,54 @@ class Questions extends Component {
   // TODO: Atualizar no BD tambem
   decrementCredits() {
     this.props.setCurrentCredits(this.props.currentCredits - 1);
-    if(!this.hasCredits()){
+    if (!this.hasCredits()) {
       Alert.alert('Voce nao tem mais creditos! Crie uma pergunta para ganhar mais');
     }
+  }
+
+  renderCards() {
+    if (this.props.currentCards) {
+      return (
+        <Swiper
+          ref ="swiper"
+          cards={this.props.currentCards}
+          renderCard={(card) => (
+            <View style={{...styles.card, backgroundColor: this.getCardColor(card.gender)}}>
+              <Text style={styles.text}>
+                <Text style={{color: 'purple'}}>
+                  Eu NUNCA...
+                </Text>
+                {card.description}
+              </Text>
+            </View>
+          )}
+          onSwiped={(_cardIndex) => {
+            this.decrementCredits();
+          }}
+          onSwipedAll={() => Alert.alert('Acabou as proezas de hj. Volte mais tarde!')}
+          cardIndex={this.props.cardIndex}
+          backgroundColor={'purple'}
+          stackSize={2}
+          showSecondCard
+          disableTopSwipe
+          disableBottomSwipe
+          disableLeftSwipe={!this.hasCredits()}
+          disableRightSwipe={!this.hasCredits()}
+        />
+      );
+    }
+    return (
+      <View>
+      <View>carregando</View>
+      <ActivityIndicator size='large' />
+      </View>
+    );
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <Swiper
-          ref = "swiper"
-          cards={this.cards}
-          renderCard={(card) => {
-            return (
-              <View style={{...styles.card, backgroundColor: this.getCardColor(card.gender)}}>
-                <Text style={styles.text}>
-                  <Text style={{color: 'purple'}}>
-                    Eu NUNCA...
-                  </Text>
-                  {card.question}
-                </Text>
-              </View>
-            )
-          }}
-          onSwiped={(_cardIndex) => {
-            this.decrementCredits();
-          }}
-          cardIndex={this.props.cardIndex}
-          backgroundColor={'purple'}
-          stackSize={2}
-          showSecondCard
-          infinite
-          disableTopSwipe
-          disableBottomSwipe
-          disableLeftSwipe={!this.hasCredits()}
-          disableRightSwipe={!this.hasCredits()} 
-          >
-        </Swiper>
+        { this.renderCards() }
       </View>
     );
   }
@@ -119,16 +135,16 @@ const styles = StyleSheet.create({
   card: {
     borderRadius: 4,
     borderWidth: 3,
-    borderColor: "white",
-    justifyContent: "center",
+    borderColor: 'white',
+    justifyContent: 'center',
     height: '40%',
     backgroundColor: 'white',
     padding: 10,
   },
   text: {
-    textAlign: "center",
+    textAlign: 'center',
     fontSize: 25,
-    backgroundColor: "transparent"
+    backgroundColor: 'transparent'
   }
 });
 
@@ -136,7 +152,9 @@ const mapStateToProps = state => (
   {
     cardIndex: state.FeedReducer.cardIndex,
     currentCredits: state.FeedReducer.currentCredits,
+    currentCards: state.FeedReducer.currentCards,
   }
-)
+);
 
-export default connect(mapStateToProps, { setCurrentCredits }, null,  { withRef: true })(Questions)
+export default connect(mapStateToProps, { setCurrentCredits, setCurentCards }, null, { withRef: true })(Questions)
+;
