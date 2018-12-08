@@ -9,30 +9,20 @@ import {
 } from 'react-native';
 import Swiper from 'react-native-deck-swiper';
 import { connect } from 'react-redux';
-import firebase from 'firebase';
+import firebase from '../infra/firebase';
 
 // Redux
 import { setCurrentCredits, setCurentCards } from '../actions/FeedActions';
 
 class Questions extends Component {
   componentWillMount() {
-    // TODO: Colocar isso no infra/firebase.js
-    const config = {
-      apiKey: 'AIzaSyCEHGCtucJR-fs5YZNdni6dpqeOF1rGEew',
-      authDomain: 'riddles-3813b.firebaseapp.com',
-      databaseURL: 'https://riddles-3813b.firebaseio.com',
-      projectId: 'riddles-3813b',
-      storageBucket: 'riddles-3813b.appspot.com',
-      messagingSenderId: '643049252508'
-    };
-    firebase.initializeApp(config);
     this.database = firebase.database();
     this.fetchCards();
   }
 
   fetchCards() {
     const featRef = firebase.database().ref('feats');
-    featRef.on('value', (snapshot) => {
+    featRef.orderByChild('users/jimy').equalTo(true).on('value', (snapshot) => {
       this.props.setCurentCards(Object.values(snapshot.val()));
     });
   }
@@ -101,6 +91,7 @@ class Questions extends Component {
             this.decrementCredits();
           }}
           onSwipedAll={() => Alert.alert('Acabou as proezas de hj. Volte mais tarde!')}
+          onSwipedRight={() => false}
           cardIndex={this.props.cardIndex}
           backgroundColor={'purple'}
           stackSize={2}
@@ -115,7 +106,7 @@ class Questions extends Component {
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size='large' />
-        <View style={{margin: 10}}>
+        <View style={{ margin: 10 }}>
           <Text style={styles.loadingText}>{'Carregando Proezas'}</Text>
         </View>
       </View>
